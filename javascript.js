@@ -1,7 +1,10 @@
 
+console.log("File Linked");
+
 // Initial array of politicians
 
-var politicians = ["Donal Trump", "Hillary Clinton", "Mike Pence", "Rick Scott", "Marco Rubio", "Nancy Pelosi", "Elizabeth Warren", "Bernie Sanders", "Ross Perot", "George Bush", "Bill Clinton", "Barack Obama"];
+var politicians = ["Donald Trump", "Hillary Clinton", "Mike Pence", "Rick Scott", "Marco Rubio", "Nancy Pelosi", "Elizabeth Warren", "Bernie Sanders", "Ross Perot", "George Bush", "Bill Clinton", "Barack Obama"];
+
 
 // Function for displaying politician buttons
 
@@ -27,7 +30,7 @@ for (var i = 0; i < politicians.length; i++) {
 
 // Adding the button to the HTML
 
-  $("politician_buttons").append(politician);
+  $("#politician_buttons").append(politician);
 
   }  //Closes the for loop
 
@@ -42,8 +45,10 @@ for (var i = 0; i < politicians.length; i++) {
 $("#add_politician").on("click", function(event) {
   event.preventDefault();
   var newpolitician = $("#politician_input").val().trim();
+  console.log(newpolitician);
   politicians.push(newpolitician);
   makeButtons();
+  $("#politician_input").empty();
   
 });  //Closes the on click listener for the form
 
