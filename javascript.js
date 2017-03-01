@@ -19,10 +19,13 @@ $("#politician_buttons").empty();
 for (var i = 0; i < politicians.length; i++) {
   var politician = $("<button>");
 
-// Adds a data-attribute with a value of the politician at index i
+// Adds a class with a value of politician
 
   politician.addClass("politician");
-  politician.attr("data-name", politician[i]);
+
+  // politician.attr("data-name", politician[i]);
+
+  politician.attr("data-name", politicians[i]);
 
 // Lables the button with the text in the array
 
@@ -30,7 +33,14 @@ for (var i = 0; i < politicians.length; i++) {
 
 // Adding the button to the HTML
 
-  $("#politician_buttons").append(politician);
+  $("#politician_buttons").prepend(politician);
+
+// Clears the form input on submission
+
+  $("#politician_form").each(function(){
+    this.reset();
+});
+
 
   }  //Closes the for loop
 
@@ -45,10 +55,8 @@ for (var i = 0; i < politicians.length; i++) {
 $("#add_politician").on("click", function(event) {
   event.preventDefault();
   var newpolitician = $("#politician_input").val().trim();
-  console.log(newpolitician);
   politicians.push(newpolitician);
   makeButtons();
-  $("#politician_input").empty();
   
 });  //Closes the on click listener for the form
 
@@ -63,19 +71,27 @@ makeButtons();
 
 // Giphy API Query
 
-$("button").on("click", function() {
-  var person = $(this).attr("data-person");
+$(document).on("click", ".politician", function() {
+  var person = $(this).attr("data-name");
+  var state = $(this).attr("data-state");
   var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + person + "&api_key=dc6zaTOxFJmzC&limit=10";
+  console.log(person);
+  console.log(queryURL);
+  console.log($(this).data-state);
 
-  $.ajax({
+   $.ajax({
     url: queryURL,
     method: "GET"
   })
 
-.done(function(response) {
+
+// Returns Giphy results to #politicians div
+
+
+  .done(function(response) {
     var results = response.data;
 
-    console.log(results.data);
+    console.log(results);
 
     for (var i = 0; i < results.length; i++) {
 
@@ -94,8 +110,28 @@ $("button").on("click", function() {
   $("#politicians").prepend(gifDiv);
 
 }
-});
-});
+
+   });  // Closes .done response fuction
+
+
+});  
+
+
+
+   $(".gif").on("click", function() {
+      // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+      var state = $(this).attr("data-state");
+      // If the clicked image's state is still, update its src attribute to what its data-animate value is.
+      // Then, set the image's data-state to animate
+      // Else set src to the data-still value
+      if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+      }
+    });
 
 
     
